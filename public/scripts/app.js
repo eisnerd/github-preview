@@ -31,18 +31,30 @@ $(function(){
 
   // render markup into preview
   function render() {
-    $.ajax({
-      type: "POST",
-      url: "/render",
-      data: {
-        format: $('#format').val(),
-        data: $("#text").val()
-      },
-      success: function(data) {
-        $('#preview').empty().append(data);
-        syncScroll();
-      }
-    });
+    var success = function(data) {
+      $('#preview').empty().append(data);
+      syncScroll();
+    };
+    if ($('#format').val() == "markdown")
+    {
+      $.ajax({
+        type: "POST",
+        url: "https://api.github.com/markdown/raw",
+        contentType: "text/plain",
+        data: $("#text").val(),
+        success: success,
+      });
+    } else {
+      $.ajax({
+        type: "POST",
+        url: "/render",
+        data: {
+          format: $('#format').val(),
+          data: $("#text").val()
+        },
+        success: success,
+      });
+    }
   }
   render();
 
