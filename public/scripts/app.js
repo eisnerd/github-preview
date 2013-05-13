@@ -1,4 +1,5 @@
 $(function(){
+  var lag = 800;
   if (typeof GithubPreview === 'undefined') GithubPreview = {};
 
   // keep text and preview at 100% height
@@ -8,7 +9,7 @@ $(function(){
     $(".panel").height(height);
   }
   resize();
-  $(window).resize(_.debounce(resize,300));
+  $(window).resize(_.debounce(resize,lag));
 
 
   // sync scrolling of textarea and preview
@@ -59,7 +60,7 @@ $(function(){
   render();
 
   $("#format").change(render);
-  $("#text").bind('input',_.debounce(render,300));
+  $("#text").bind('input',_.debounce(render,lag));
 
 
   // show / hide help
